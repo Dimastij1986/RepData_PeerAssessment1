@@ -1,4 +1,9 @@
-# Reproducible Research: Peer Assessment 1
+---
+title: "Reproducible Research: Peer Assessment 1"
+output: 
+  html_document:
+    keep_md: true
+---
 
 ##Loading and preprocessing the data
 
@@ -40,7 +45,7 @@ print(xt, type = "html")
 ```
 
 <!-- html table generated in R 3.1.2 by xtable 1.7-4 package -->
-<!-- Sun Apr 19 14:02:20 2015 -->
+<!-- Sun Apr 19 15:18:15 2015 -->
 <table border=1>
 <tr> <th>  </th> <th> Date </th> <th> Total </th>  </tr>
   <tr> <td align="right"> 1 </td> <td> 2012-10-02 </td> <td align="right"> 126 </td> </tr>
@@ -51,16 +56,16 @@ print(xt, type = "html")
   <tr> <td align="right"> 6 </td> <td> 2012-10-07 </td> <td align="right"> 11015 </td> </tr>
    </table>
 
-Histogram of the total number of steps taken each day:
+Histogram of the total number of steps taken per day:
 
 
 ```r
 hist <- ggplot(daily_data, aes(Total))
 hist + geom_histogram(color = "blue", fill = "lightblue", binwidth = 3000) +
-        labs(title="Histogram of the total number of steps taken each day", x = "Steps taken each day")
+        labs(title="Histogram of the total number of steps taken per day", x = "Steps taken per day")
 ```
 
-![](Activity_files/figure-html/unnamed-chunk-4-1.png) 
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png) 
 
 Then calculate and report the mean and median of the total number of steps taken per day:
 
@@ -71,7 +76,7 @@ median_steps_daily <- median(daily_data$Total)
 ```
 
 
-**Mean** of the total number of steps taken per day = 1.0766189\times 10^{4}   
+**Mean** of the total number of steps taken per day = 1.0766189 &times; 10<sup>4</sup>   
 **Median** of the total number of steps taken per day = 10765
 
 ##What is the average daily activity pattern?
@@ -82,10 +87,10 @@ Let's make a time series plot of the 5-minute interval (x-axis) and the average 
 interval_data <- data_clear %>% group_by(Interval) %>% summarise(Average = mean(Steps))
 
 g <- ggplot(interval_data, aes(Interval, Average))
-print(g + geom_line())
+g + geom_line(color = "blue") + xlab("5-min interval") + ylab("Number of steps")
 ```
 
-![](Activity_files/figure-html/unnamed-chunk-6-1.png) 
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-1.png) 
 
 Let's find which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps:
 
@@ -143,7 +148,7 @@ print(xt2, type = "html")
 ```
 
 <!-- html table generated in R 3.1.2 by xtable 1.7-4 package -->
-<!-- Sun Apr 19 14:02:20 2015 -->
+<!-- Sun Apr 19 15:18:16 2015 -->
 <table border=1>
 <tr> <th>  </th> <th> Steps </th> <th> Date </th> <th> Interval </th>  </tr>
   <tr> <td align="right"> 1 </td> <td align="right"> 1.72 </td> <td> 2012-10-01 </td> <td align="right">   0 </td> </tr>
@@ -154,17 +159,17 @@ print(xt2, type = "html")
   <tr> <td align="right"> 6 </td> <td align="right"> 2.09 </td> <td> 2012-10-01 </td> <td align="right">  25 </td> </tr>
    </table>
 
-Let's depict histogram of the total number of steps taken each day using filled data:
+Let's depict histogram of the total number of steps taken per day using filled data:
 
 
 ```r
 daily_data_f <- fixed_data %>% group_by(Date) %>% summarise(Total = sum(Steps))
 hist <- ggplot(daily_data_f, aes(Total))
 hist + geom_histogram(color = "blue", fill = "lightblue", binwidth = 3000) +
-        labs(title="Histogram of the total number of steps taken each day (with filled NAs)", x = "Steps taken each day")
+        labs(title="Histogram of the total number of steps taken per day (with filled NAs)", x = "Steps taken per day")
 ```
 
-![](Activity_files/figure-html/unnamed-chunk-11-1.png) 
+![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11-1.png) 
 
 Then calculate and report the mean and median of the total number of steps taken per day:
 
@@ -174,13 +179,13 @@ mean_steps_daily_f <- mean(daily_data_f$Total)
 median_steps_daily_f <- median(daily_data_f$Total)
 ```
 
-**Mean** of the total number of steps taken per day = 1.0766189\times 10^{4}   
-**Median** of the total number of steps taken per day = 1.0766189\times 10^{4}
+**Mean** of the total number of steps taken per day = 1.0766189 &times; 10<sup>4</sup>   
+**Median** of the total number of steps taken per day = 1.0766189 &times; 10<sup>4</sup>
 
 Now we can find out do these values differ from the estimates from the first part of the assignment:
 
-Mean (without NAs) = 1.0766189\times 10^{4} vs. Mean (with filled NAs) = 1.0766189\times 10^{4}  
-Median (without NAs) = 10765 vs. Median (with filled NAs) = 1.0766189\times 10^{4}
+Mean (without NAs) = 1.0766189 &times; 10<sup>4</sup> vs. Mean (with filled NAs) = 1.0766189 &times; 10<sup>4</sup>  
+Median (without NAs) = 10765 vs. Median (with filled NAs) = 1.0766189 &times; 10<sup>4</sup>
 
 As we can see, with selected filled strategy (mean for that 5-minute interval) values don't differ, so NAs filling doesn't have any impact on the estimates of the total daily number of steps.
 
@@ -202,7 +207,7 @@ print(xt3, type = "html")
 ```
 
 <!-- html table generated in R 3.1.2 by xtable 1.7-4 package -->
-<!-- Sun Apr 19 14:02:21 2015 -->
+<!-- Sun Apr 19 15:18:16 2015 -->
 <table border=1>
 <tr> <th>  </th> <th> Steps </th> <th> Date </th> <th> Interval </th> <th> DayOfWeek </th>  </tr>
   <tr> <td align="right"> 1 </td> <td align="right"> 1.72 </td> <td align="right"> 15614.00 </td> <td align="right">   0 </td> <td> weekday </td> </tr>
@@ -218,10 +223,11 @@ Now let's make a panel plot containing a time series plot of the 5-minute interv
 ```r
 daily_data <- fixed_data %>% group_by(DayOfWeek, Interval) %>% summarise(Average = mean(Steps))
 g3 <- ggplot(daily_data, aes(Interval, Average))
-g3 + geom_line() + facet_wrap(~ DayOfWeek, nrow=2, ncol=1)
+g3 + geom_line(color = "blue") + facet_wrap(~ DayOfWeek, nrow=2, ncol=1) + 
+        xlab("5-min interval") + ylab("Number of steps")
 ```
 
-![](Activity_files/figure-html/unnamed-chunk-15-1.png) 
+![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-15-1.png) 
 
 Thus, there are differences in activity patterns between weekdays and weekends. During weekdays there is a spike around interval 800 with 200+ steps during 5 mins (must be when people are going to workplaces), then values decreases  (during workday) and there is a spike around interval 1750 with 80+ steps when most of people leave their workplaces.  
 During weekends we observe another picture: daily activity pattern more common (doesn't contain so high spikes as during weekdays). This is logical as during weekends people have more activity during mid of the day and that's why activity pattern is smoothed (without high spikes) if compare with weekday pattern.
