@@ -88,7 +88,7 @@ summary(data_initial)
 
 So, total number of missing values in the dataset is **`r sum(is.na(data_initial$Steps))`**.
 
-As a strategy for filling in all of the missing values in the dataset I'm using *mean for that 5-minute interval*.
+As a strategy for filling in all of the missing values in the dataset I'm using *rounded mean for that 5-minute interval*.
 
 Creating a new dataset that is equal to the original dataset but with the missing data filled in:
 
@@ -96,6 +96,7 @@ Creating a new dataset that is equal to the original dataset but with the missin
 na_data <- filter(data_initial, is.na(Steps))
 good_data <- filter(data_initial, !is.na(Steps))
 
+interval_data$Average <- round(interval_data$Average, 0)
 filled_data <- left_join(na_data[2:3], interval_data, by = "Interval")
 colnames(filled_data) <- c("Date", "Interval", "Steps")
 
@@ -131,10 +132,10 @@ median_steps_daily_f <- median(daily_data_f$Total)
 
 Now we can find out do these values differ from the estimates from the first part of the assignment:
 
-Mean (without NAs) = `r mean_steps_daily` vs. Mean (with filled NAs) = `r mean_steps_daily_f`  
-Median (without NAs) = `r median_steps_daily` vs. Median (with filled NAs) = `r median_steps_daily_f`
+Mean (without NAs) = **`r as.character(round(mean_steps_daily, digits = 2))`** vs. Mean (with filled NAs) = **`r as.character(round(mean_steps_daily_f, digits = 2))`**  
+Median (without NAs) = **`r as.character(round(median_steps_daily, digits = 2))`** vs. Median (with filled NAs) = **`r as.character(round(median_steps_daily_f, digits = 2))`**
 
-As we can see, with selected filled strategy (mean for that 5-minute interval) values don't differ, so NAs filling doesn't have any impact on the estimates of the total daily number of steps.
+As we can see, with selected filled strategy (rounded mean for 5-minute interval) mean values approximately the same, while median with filled NAs is a bit lower.
 
 ##Are there differences in activity patterns between weekdays and weekends?
 

@@ -40,7 +40,7 @@ print(xt, type = "html")
 ```
 
 <!-- html table generated in R 3.1.2 by xtable 1.7-4 package -->
-<!-- Sun Apr 19 15:35:04 2015 -->
+<!-- Sun Apr 19 22:36:27 2015 -->
 <table border=1>
 <tr> <th>  </th> <th> Date </th> <th> Total </th>  </tr>
   <tr> <td align="right"> 1 </td> <td> 2012-10-02 </td> <td align="right"> 126 </td> </tr>
@@ -118,7 +118,7 @@ summary(data_initial)
 
 So, total number of missing values in the dataset is **2304**.
 
-As a strategy for filling in all of the missing values in the dataset I'm using *mean for that 5-minute interval*.
+As a strategy for filling in all of the missing values in the dataset I'm using *rounded mean for that 5-minute interval*.
 
 Creating a new dataset that is equal to the original dataset but with the missing data filled in:
 
@@ -127,6 +127,7 @@ Creating a new dataset that is equal to the original dataset but with the missin
 na_data <- filter(data_initial, is.na(Steps))
 good_data <- filter(data_initial, !is.na(Steps))
 
+interval_data$Average <- round(interval_data$Average, 0)
 filled_data <- left_join(na_data[2:3], interval_data, by = "Interval")
 colnames(filled_data) <- c("Date", "Interval", "Steps")
 
@@ -143,15 +144,15 @@ print(xt2, type = "html")
 ```
 
 <!-- html table generated in R 3.1.2 by xtable 1.7-4 package -->
-<!-- Sun Apr 19 15:35:04 2015 -->
+<!-- Sun Apr 19 22:36:27 2015 -->
 <table border=1>
 <tr> <th>  </th> <th> Steps </th> <th> Date </th> <th> Interval </th>  </tr>
-  <tr> <td align="right"> 1 </td> <td align="right"> 1.72 </td> <td> 2012-10-01 </td> <td align="right">   0 </td> </tr>
-  <tr> <td align="right"> 2 </td> <td align="right"> 0.34 </td> <td> 2012-10-01 </td> <td align="right">   5 </td> </tr>
-  <tr> <td align="right"> 3 </td> <td align="right"> 0.13 </td> <td> 2012-10-01 </td> <td align="right">  10 </td> </tr>
-  <tr> <td align="right"> 4 </td> <td align="right"> 0.15 </td> <td> 2012-10-01 </td> <td align="right">  15 </td> </tr>
-  <tr> <td align="right"> 5 </td> <td align="right"> 0.08 </td> <td> 2012-10-01 </td> <td align="right">  20 </td> </tr>
-  <tr> <td align="right"> 6 </td> <td align="right"> 2.09 </td> <td> 2012-10-01 </td> <td align="right">  25 </td> </tr>
+  <tr> <td align="right"> 1 </td> <td align="right"> 2.00 </td> <td> 2012-10-01 </td> <td align="right">   0 </td> </tr>
+  <tr> <td align="right"> 2 </td> <td align="right"> 0.00 </td> <td> 2012-10-01 </td> <td align="right">   5 </td> </tr>
+  <tr> <td align="right"> 3 </td> <td align="right"> 0.00 </td> <td> 2012-10-01 </td> <td align="right">  10 </td> </tr>
+  <tr> <td align="right"> 4 </td> <td align="right"> 0.00 </td> <td> 2012-10-01 </td> <td align="right">  15 </td> </tr>
+  <tr> <td align="right"> 5 </td> <td align="right"> 0.00 </td> <td> 2012-10-01 </td> <td align="right">  20 </td> </tr>
+  <tr> <td align="right"> 6 </td> <td align="right"> 2.00 </td> <td> 2012-10-01 </td> <td align="right">  25 </td> </tr>
    </table>
 
 Let's depict histogram of the total number of steps taken per day using filled data:
@@ -174,15 +175,15 @@ mean_steps_daily_f <- mean(daily_data_f$Total)
 median_steps_daily_f <- median(daily_data_f$Total)
 ```
 
-**Mean** of the total number of steps taken per day = 1.0766189\times 10^{4}   
-**Median** of the total number of steps taken per day = 1.0766189\times 10^{4}
+**Mean** of the total number of steps taken per day = 1.0765639\times 10^{4}   
+**Median** of the total number of steps taken per day = 1.0762\times 10^{4}
 
 Now we can find out do these values differ from the estimates from the first part of the assignment:
 
-Mean (without NAs) = 1.0766189\times 10^{4} vs. Mean (with filled NAs) = 1.0766189\times 10^{4}  
-Median (without NAs) = 10765 vs. Median (with filled NAs) = 1.0766189\times 10^{4}
+Mean (without NAs) = **10766.19** vs. Mean (with filled NAs) = **10765.64**  
+Median (without NAs) = **10765** vs. Median (with filled NAs) = **10762**
 
-As we can see, with selected filled strategy (mean for that 5-minute interval) values don't differ, so NAs filling doesn't have any impact on the estimates of the total daily number of steps.
+As we can see, with selected filled strategy (rounded mean for 5-minute interval) mean values approximately the same, while median with filled NAs is a bit lower.
 
 ##Are there differences in activity patterns between weekdays and weekends?
 
@@ -202,15 +203,15 @@ print(xt3, type = "html")
 ```
 
 <!-- html table generated in R 3.1.2 by xtable 1.7-4 package -->
-<!-- Sun Apr 19 15:35:05 2015 -->
+<!-- Sun Apr 19 22:36:28 2015 -->
 <table border=1>
 <tr> <th>  </th> <th> Steps </th> <th> Date </th> <th> Interval </th> <th> DayOfWeek </th>  </tr>
-  <tr> <td align="right"> 1 </td> <td align="right"> 1.72 </td> <td align="right"> 15614.00 </td> <td align="right">   0 </td> <td> weekday </td> </tr>
-  <tr> <td align="right"> 2 </td> <td align="right"> 0.34 </td> <td align="right"> 15614.00 </td> <td align="right">   5 </td> <td> weekday </td> </tr>
-  <tr> <td align="right"> 3 </td> <td align="right"> 0.13 </td> <td align="right"> 15614.00 </td> <td align="right">  10 </td> <td> weekday </td> </tr>
-  <tr> <td align="right"> 4 </td> <td align="right"> 0.15 </td> <td align="right"> 15614.00 </td> <td align="right">  15 </td> <td> weekday </td> </tr>
-  <tr> <td align="right"> 5 </td> <td align="right"> 0.08 </td> <td align="right"> 15614.00 </td> <td align="right">  20 </td> <td> weekday </td> </tr>
-  <tr> <td align="right"> 6 </td> <td align="right"> 2.09 </td> <td align="right"> 15614.00 </td> <td align="right">  25 </td> <td> weekday </td> </tr>
+  <tr> <td align="right"> 1 </td> <td align="right"> 2.00 </td> <td align="right"> 15614.00 </td> <td align="right">   0 </td> <td> weekday </td> </tr>
+  <tr> <td align="right"> 2 </td> <td align="right"> 0.00 </td> <td align="right"> 15614.00 </td> <td align="right">   5 </td> <td> weekday </td> </tr>
+  <tr> <td align="right"> 3 </td> <td align="right"> 0.00 </td> <td align="right"> 15614.00 </td> <td align="right">  10 </td> <td> weekday </td> </tr>
+  <tr> <td align="right"> 4 </td> <td align="right"> 0.00 </td> <td align="right"> 15614.00 </td> <td align="right">  15 </td> <td> weekday </td> </tr>
+  <tr> <td align="right"> 5 </td> <td align="right"> 0.00 </td> <td align="right"> 15614.00 </td> <td align="right">  20 </td> <td> weekday </td> </tr>
+  <tr> <td align="right"> 6 </td> <td align="right"> 2.00 </td> <td align="right"> 15614.00 </td> <td align="right">  25 </td> <td> weekday </td> </tr>
    </table>
 
 Now let's make a panel plot containing a time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis):
